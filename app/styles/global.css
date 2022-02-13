@@ -1,3 +1,78 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .bg-growing-underline {
+    background-size: 100% 0.2em;
+    background-position: 0 88%;
+    @apply bg-no-repeat transition-all duration-200;
+  }
+  .bg-growing-underline:hover {
+    background-size: 100% 100%;
+  }
+  .bg-growing-underline:focus {
+    background-size: 100% 100%;
+  }
+}
+
+:root {
+  --app-bg-opacity: 1;
+  --app-text-opacity: 1;
+  --app-border-opacity: 1;
+  --app-backdrop-filter: blur(4px);
+
+  /* New Color System */
+  --color-neutral-black: 0, 0, 0;
+  --color-neutral-dark: 22, 21, 34;
+  --color-neutral-medium: 29, 29, 31;
+  --color-neutral-light: 99, 99, 105;
+  --color-neutral-lighter: 202, 202, 206;
+  --color-neutral-lightest: 242, 242, 243;
+  --color-neutral-white: 255, 255, 255;
+
+  /* Old Color System */
+  --color-bg-base: 0, 0, 0;
+  /* --color-bg-primary: 14, 4, 21; */
+  --color-bg-primary: 22, 21, 34;
+  --color-bg-secondary: 29, 29, 31;
+  /* --color-bg-secondary: 27, 202, 186; */
+  /* --color-bg-secondary: 9, 147, 236; */
+
+  --color-app-primary: 181, 0, 242;
+  /* --color-app-primary: 235, 0, 242; */
+  --color-app-secondary: 131, 0, 242;
+  --color-app-accent: 235, 0, 242;
+
+  /* --color-app-accent: 212, 0, 242; */
+  --color-app-error: 207, 102, 121;
+
+  --color-text-primary: 255, 255, 255;
+}
+
+body {
+  font-family: var(--font-body);
+  line-height: 1.5;
+  background-repeat: no-repeat;
+  background: rgb(var(--color-bg-base));
+  color: rgb(var(--color-text-primary));
+  min-height: 100vh;
+  min-height: calc(100vh - env(safe-area-inset-bottom));
+}
+
+.page-wrapper {
+  padding-top: 3.5rem;
+  margin-top: 0rem;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr 4rem;
+}
+
+.content-wrap {
+  grid-row: 1 / 2;
+}
+
+.footer-wrap {
+  place-items: center;
+  grid-row: 2 / 3;
+}

@@ -9,7 +9,9 @@ import {
 import type { MetaFunction, LinksFunction } from "remix";
 
 import tailwindcssUrl from '~/styles/tailwind.css';
-import globalCssUrl from '~/styles/global.css';
+import Footer from './components/Layout/Footer';
+import Navbar from './components/Layout/Navbar';
+// import globalCssUrl from '~/styles/global.css';
 
 export const meta: MetaFunction = () => {
   return { title: "New Remix App" };
@@ -17,9 +19,13 @@ export const meta: MetaFunction = () => {
 
 export const links: LinksFunction = () => {
   return [
+    // {
+    //   rel: 'stylesheet',
+    //   href: globalCssUrl,
+    // },
     {
       rel: 'stylesheet',
-      href: globalCssUrl,
+      href: tailwindcssUrl,
     }
   ]
 }
@@ -34,7 +40,18 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <Navbar className="h-14" />
+        <div className="page-wrapper">
+          <div className="content-wrap">
+            <main className="overflow-hidden z-0 mt-8 mb-16 max-h-full">
+              <Outlet />
+            </main>
+          </div>
+          <div className="footer-wrap">
+            <Footer className="h-16" />
+          </div>
+        </div>
+
         <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === "development" && <LiveReload />}
