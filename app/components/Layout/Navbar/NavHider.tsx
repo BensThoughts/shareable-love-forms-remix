@@ -25,7 +25,5 @@ export default function NavHider({className, children}: NavHiderProps) {
         {children}
       </div>
     </Transition>
-
-
   );
 }

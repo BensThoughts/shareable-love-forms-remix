@@ -7,10 +7,13 @@ import {
   // Facebook,
   Instagram,
 } from '@icons-pack/react-simple-icons';
+import { LinksFunction } from 'remix';
 
 // import TransitionColor from '@app/components/Transitions/TransitionColor';
 // import SocialIcon from './SocialIcon';
-import AnimatedLinkIcon from '../../AnimatedLinkIcon/AnimatedLinkIcon';
+import AnimatedLinkIcon, {
+  links as animatedLinkIconLinks,
+} from '~/components/AnimatedLinkIcon/AnimatedLinkIcon';
 
 // const Container = styled.footer`
 //   transition-property: background, color;
@@ -25,6 +28,10 @@ import AnimatedLinkIcon from '../../AnimatedLinkIcon/AnimatedLinkIcon';
 //   transition-timing-function: ease-in-out;
 //   will-change: background, color;
 // `;
+
+export const links: LinksFunction = () => {
+  return [...animatedLinkIconLinks()];
+}
 
 type FooterProps = {
   className?: string;

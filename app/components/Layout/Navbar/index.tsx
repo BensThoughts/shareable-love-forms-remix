@@ -53,7 +53,7 @@ export default function Navbar({className, ...rest}: NavBarProps) {
         <div {...rest} className={`bg-neutral-dark bg-opacity-70 shadow-lg nav ${className ? className : ''}`}>
 
           {/* Medium+ Screens */}
-          <div className="hidden md:flex md:justify-between md:items-center md:w-full md:pt-0 md:mx-3">
+          <div className="hidden md:flex md:justify-between md:items-center md:w-full md:h-full md:pt-0 md:mx-3">
             <div className="flex gap-x-4 items-center">
               <HeartIcon className="w-6 h-6 text-secondary" />
               <div className="flex gap-4 content-between items-center pt-0">

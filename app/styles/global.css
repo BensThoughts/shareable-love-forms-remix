@@ -76,3 +76,34 @@ body {
   place-items: center;
   grid-row: 2 / 3;
 }
+
+.animated-underline {
+  position: relative;
+  padding: 0.1em 0;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.animated-underline::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.1em;
+  background-color: rgb(var(--color-app-secondary));
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity 300ms, transform 300ms;
+}
+
+.animated-underline:hover::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.animated-underline:focus::after {
+  opacity: 1;
+  transform: scaleX(1);
+}

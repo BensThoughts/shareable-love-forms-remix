@@ -12,7 +12,8 @@ export default function RemixAnimatedLink({
   return (
     <Link
       to={to}
-      className={`rounded-sm outline-none bg-gradient-to-r from-primary to-primary bg-growing-underline
+      prefetch="intent"
+      className={`rounded-sm outline-none animated-underline
                   focus-visible:border-opacity-80 focus-visible:ring-2 focus-visible:ring-primary
                   focus-visible:ring-opacity-80 focus-visible:ring-offset-4 focus-visible:ring-offset-app-bg
                   ${className}`}

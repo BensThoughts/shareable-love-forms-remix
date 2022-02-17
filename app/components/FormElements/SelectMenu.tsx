@@ -1,26 +1,40 @@
-import {useState, Fragment} from 'react';
+import {useState, Fragment, useRef, useEffect} from 'react';
 import {Listbox, Transition} from '@headlessui/react';
 import {CheckIcon, SelectorIcon} from '@heroicons/react/solid';
-import {ResponseOption} from '../../utils/store/data/nonEscalatorFormData';
 
 export default function SelectMenu({
+  name,
   initialValue,
   options,
   onChange,
 }: {
-  options: string[],
+  name: string,
   initialValue: string,
-  onChange(e: ResponseOption): void,
+  options: string[],
+  onChange?(e: string): void,
 }) {
   const [selectedValue, setSelectedValue] = useState(initialValue);
+  const ref = useRef<HTMLInputElement>(null);
 
-  function onSelectionChange(selection: ResponseOption) {
+  // useEffect(() => {
+  //   if (ref.current) {
+  //     ref.current.value = selectedValue;
+  //   }
+  // }, [selectedValue]);
+
+  function onSelectionChange(selection: string) {
     setSelectedValue(selection);
-    onChange(selection);
+    if (ref.current) {
+      ref.current.value = selection;
+    }
+    if (onChange) {
+      onChange(selection);
+    }
   }
 
   return (
     <Listbox value={selectedValue} onChange={onSelectionChange}>
+      <input type="hidden" name={name} ref={ref} />
       <div className="w-72 md:w-96">
         <div className="relative">
           <Listbox.Button
