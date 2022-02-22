@@ -44,7 +44,7 @@ export const meta: MetaFunction = ({
     fieldGroup,
   } = data;
   return {
-    title: `"${fieldGroup.label}"`,
+    title: `${fieldGroup.formName} | "${fieldGroup.label}"`,
     description: `Enjoy the "${fieldGroup.formName}" and much more`,
   };
 };
@@ -211,34 +211,55 @@ export default function FieldGroupRoute() {
   } = useLoaderData<LoaderData>();
   return (
     <GridWrapper>
-      <div className="flex w-full justify-center items-center">
-        <Title>{fieldGroup.label}</Title>
+      <div className="flex flex-col gap-2 justify-center items-center w-full">
+        <Title>Non Escalator Form</Title>
+        <h2 className="text-2xl text-center text-neutral-lighter">
+          {fieldGroup.label}
+        </h2>
       </div>
       <Form method="post">
-        <div className="flex flex-col gap-20">
+        <div className="flex flex-col gap-20 items-center">
           <div className="flex flex-col gap-y-12 justify-center items-center">
             <FieldGroupLayout fieldGroup={fieldGroup} />
-          </div>
-          <div className="flex gap-6 justify-between w-full">
+            <div className="flex gap-6 justify-between w-full">
             {prevFieldGroupPage && (
-              <RoundedButton
-                type="submit"
-                name="redirectToPage"
-                value={prevFieldGroupPage}
-              >
-                Previous
-              </RoundedButton>
+              <div className="mr-auto">
+                <RoundedButton
+                  type="submit"
+                  name="redirectToPage"
+                  value={prevFieldGroupPage}
+                >
+                  Previous
+                </RoundedButton>
+              </div>
             )}
-            {nextFieldGroupPage && (
-              <RoundedButton
-                type="submit"
-                name="redirectToPage"
-                value={nextFieldGroupPage}
-              >
-                Next
-              </RoundedButton>
+            {nextFieldGroupPage ? (
+              <div className="ml-auto">
+                <RoundedButton
+                  type="submit"
+                  name="redirectToPage"
+                  value={nextFieldGroupPage}
+                >
+                  Next
+                </RoundedButton>
+              </div>
+            ) : (
+              <div className="ml-auto">
+                <RoundedButton
+                  type="submit"
+                  name="redirectToPage"
+                  value={'finished-form'}
+                >
+                  Submit
+                </RoundedButton>
+              </div>
             )}
           </div>
+          </div>
+          <div>
+      
+          </div>
+
         </div>
       </Form>
     </GridWrapper>
