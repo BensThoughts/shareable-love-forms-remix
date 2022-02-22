@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum FieldType {
+  inputField
+  selectField
+}
+
+model FormField {
+  // id                     String                @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id                  String                @id @unique @default(uuid())
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  label               String
+  type                FieldType
+  defaultValue        String?
+  valueOptions        String[]
+  tooltipText         String?
+  fieldGroupLabel     String
+  formName            String
+  fieldGroup          FormFieldGroup        @relation(fields: [fieldGroupLabel, formName], references: [label, formName], onDelete: Cascade)
+  fieldValuesForUsers FieldValuesForUsers[]
+}
+
+model FormFieldGroup {
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  label     String
+  form      FormState   @relation(fields: [formName], references: [name], onDelete: Cascade)
+  formName  String
+  fields    FormField[]
+
+  @@id([label, formName])
+}
+
+model FormState {
+  name        String           @id @unique
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  version     Int              @default(0)
+  description String
+  fieldGroups FormFieldGroup[]
+}
+
+model FieldValuesForUsers {
+  id        String    @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  value     String
+  fieldId   String
+  field     FormField @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([fieldId, userId])
+}
+
+model User {
+  id           String                @id @default(uuid())
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+  username     String                @unique
+  passwordHash String
+  fieldValues  FieldValuesForUsers[]
+}
