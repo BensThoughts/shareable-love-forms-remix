@@ -14,19 +14,9 @@ export default function SelectMenu({
   onChange?(e: string): void,
 }) {
   const [selectedValue, setSelectedValue] = useState(initialValue);
-  const ref = useRef<HTMLInputElement>(null);
-
-  // useEffect(() => {
-  //   if (ref.current) {
-  //     ref.current.value = selectedValue;
-  //   }
-  // }, [selectedValue]);
 
   function onSelectionChange(selection: string) {
     setSelectedValue(selection);
-    if (ref.current) {
-      ref.current.value = selection;
-    }
     if (onChange) {
       onChange(selection);
     }
@@ -34,7 +24,7 @@ export default function SelectMenu({
 
   return (
     <Listbox value={selectedValue} onChange={onSelectionChange}>
-      <input type="hidden" name={name} ref={ref} />
+      <input type="hidden" name={name} value={selectedValue} />
       <div className="w-72 md:w-96">
         <div className="relative">
           <Listbox.Button
