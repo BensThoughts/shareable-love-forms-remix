@@ -63,6 +63,7 @@ const Tooltip = ({
             overflow: 'hidden',
             display: 'block',
           }}
+          type="button"
         >
           <InformationCircleIcon className='w-6 h-6 text-secondary'/>
         </button>
