@@ -1,4 +1,4 @@
-import { ActionFunction, LinksFunction, redirect } from 'remix';
+import { ActionFunction, LinksFunction, LoaderFunction, redirect } from 'remix';
 import { Form, json } from 'remix';
 import Label from '~/components/FormElements/Label';
 
@@ -7,6 +7,13 @@ import SelectMenu from '~/components/FormElements/SelectMenu';
 export const links: LinksFunction = () => {
   return [
   ]
+}
+
+export const loader: LoaderFunction = async ({
+  request,
+}) => {
+  const formName = 'Non Escalator Relationship';
+  return formName;
 }
 
 type ActionData = {
@@ -20,7 +27,7 @@ export const action: ActionFunction = async ({
 }) => {
   const form = await request.formData();
   console.log(form);
-  const tSelect = form.get('reach-select');
+  const tSelect = form.get('headless-select');
   console.log(tSelect);
   return redirect('/test')
 }
