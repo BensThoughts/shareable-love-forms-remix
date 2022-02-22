@@ -9,7 +9,7 @@ import GradientBorderCard from '~/components/Card/GradientBorderCard';
 
 export default function Index() {
   return (
-    <GridWrapper>
+    <GridWrapper className="my-16">
       <FlexSection>
         <LogoSVG
           // width={600}

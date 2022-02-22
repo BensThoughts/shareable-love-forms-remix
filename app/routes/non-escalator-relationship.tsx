@@ -97,12 +97,9 @@ import Title from '~/components/Title';
 export default function NonEscalatorRelationshipRoute() {
   // const { fieldGroups } = useLoaderData<LoaderData>();
   return (
-    <GridWrapper className="mx-8">
-      <div className="flex justify-center items-center w-full">
-        <Title>Non Escalator Form</Title>
-      </div>
+    <div className="my-16">
       <Outlet />
-    </GridWrapper>
+    </div>
     // <FieldGroupsProvider initialFieldGroups={fieldGroups}>
     // </FieldGroupsProvider>
   )
