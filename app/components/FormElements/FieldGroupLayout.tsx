@@ -1,107 +1,54 @@
-import React, {useReducer} from 'react';
+import React from 'react';
 import SelectMenu from './SelectMenu';
 import FormInput from './Input';
-import RemixLinkButton from '../RemixLinkButton';
-import useSlideAnimation from '~/utils/hooks/useSlideAnimation';
-import PageTransition from '../Layout/PageTransition';
 import Label from './Label';
-// import PageTransition from '../Layout/PageTransition';
 
-type UpdateFieldAction = {
-  type: 'UpdateField',
-  payload: {
-    fieldId: string,
-    value: string,
-  }
-};
-type SetFieldGroupAction = {
-  type: 'SetFieldGroup',
-  payload: {
-    fieldGroup: FormFieldGroup | undefined
-  }
-}
+import type { FieldGroup, Field } from '~/utils/types';
 
-type FormUpdateAction = UpdateFieldAction | SetFieldGroupAction;
-
-function fieldGroupReducer(state: FormFieldGroup, action: FormUpdateAction): FormFieldGroup {
-  switch (action.type) {
-    case 'UpdateField': {
-      const fieldId = action.payload.fieldId;
-      const value = action.payload.value;
-      return {
-        ...state,
-        fields: {
-          ...state.fields,
-          [fieldId]: {
-            ...state.fields[fieldId],
-            value,
-          },
-        },
-      };
-    }
-
-    case 'SetFieldGroup': {
-      const fieldGroup = action.payload.fieldGroup;
-      if (fieldGroup === undefined) {
-        return state;
-      }
-      return {
-        ...fieldGroup,
-      };
-    }
-  }
+export type FieldGroupLayoutProps = {
+  fieldGroup: FieldGroup;
 }
 
 export default function FieldGroupLayout({
-  formId,
   fieldGroup,
-}: {
-  formId: string;
-  fieldGroup: FormFieldGroup;
-}) {
-  const appDispatch = useAppDispatch();
-  const [slideAnimationDirection, setSlideAnimationDirection] = useSlideAnimation();
-  const [localFieldGroupState, localFieldGroupDispatch] = useReducer(fieldGroupReducer, fieldGroup);
+}: FieldGroupLayoutProps) {
+  const { fields } = fieldGroup;
 
-  // useEffect(() => {
-  //   fieldGroupDispatch({type: 'SetFieldGroup', payload: {fieldGroup}});
-  // }, [fieldGroup]);
-
-  if (!fieldGroup) {
-    return null;
-  }
-
-  const fields = localFieldGroupState.fields;
-  const nextFieldGroupId = localFieldGroupState.nextFieldGroupId;
-  const previousFieldGroupId = localFieldGroupState.previousFieldGroupId;
-
-  function getField(id: string): React.ReactNode {
-    const type = fields[id].type;
+  function getField({
+    id,
+    label,
+    type,
+    defaultValue,
+    valueOptions,
+    value,
+    tooltipText,
+  }: Field): React.ReactNode {
     switch (type) {
       case 'selectField': {
-        const field = fields[id] as FormSelectField;
+        // TODO: Should not or to N/A
+        defaultValue = defaultValue ? defaultValue : 'N/A';
+        const initialValue = value ? value : defaultValue;
         return (
           <div className="flex flex-col gap-3">
-            <Label label={field.label} tooltipText={field.tooltipText} />
+            <Label label={label} tooltipText={tooltipText ? tooltipText : undefined} />
             <SelectMenu
-              options={field.valueOptions}
-              initialValue={field.value}
-              onChange={(e) => {
-                localFieldGroupDispatch({type: 'UpdateField', payload: {fieldId: id, value: e}});
-              }}
+              name={id}
+              // TODO: valueOptions is never null/undefined
+              options={valueOptions}
+              // TODO: initialValue needs to be checked to line up with valueOptions
+              initialValue={initialValue}
             />
           </div>
         );
       }
       case 'inputField': {
-        const field = fields[id] as FormInputField;
         return (
           <FormInput
             wasSubmitted={false}
             getFieldError={() => null}
             type={'text'}
-            name={field.id}
-            placeholder={field.label}
+            name={id}
+            placeholder={label}
           />
         );
       }
@@ -109,46 +56,12 @@ export default function FieldGroupLayout({
   }
 
   return (
-    <PageTransition
-      slideDirection={slideAnimationDirection}
-    >
-      <div className="flex flex-col gap-20">
-        <div className="flex flex-col gap-y-12 justify-center items-center">
-          {fields && Object.keys(fields).map((id) => (
-            <div key={id}>
-              {getField(id)}
-            </div>
-          ))}
+    <>
+      {fields && fields.map((field) => (
+        <div key={field.id}>
+          {getField(field)}
         </div>
-
-        <div className="flex gap-6 justify-between w-full">
-          {previousFieldGroupId &&
-            <RemixLinkButton
-              to={`/non-escalator-relationship/${previousFieldGroupId}`}
-              onClick={() => {
-                setSlideAnimationDirection('right');
-                appDispatch(updateFieldGroup({formId, fieldGroup: localFieldGroupState}));
-              }}
-            >
-              Previous
-            </RemixLinkButton>
-          }
-          {nextFieldGroupId &&
-          <div className="ml-auto">
-            <RemixLinkButton
-              to={`/non-escalator-relationship/${nextFieldGroupId}`}
-              onClick={() => {
-                setSlideAnimationDirection('left');
-                appDispatch(updateFieldGroup({formId, fieldGroup: localFieldGroupState}));
-              }}
-            >
-              {nextFieldGroupId == 'finished-form' ? 'Submit' : 'Next'}
-            </RemixLinkButton>
-          </div>
-          }
-        </div>
-      </div>
-
-    </PageTransition>
+      ))}
+    </>
   );
 }
