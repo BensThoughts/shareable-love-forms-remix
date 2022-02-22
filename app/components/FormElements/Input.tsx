@@ -1,12 +1,12 @@
 import {useState} from 'react';
 
 type FormInputProps = {
-  wasSubmitted: boolean;
+  wasSubmitted?: boolean;
   getFieldError(value: string): string | null;
 } & React.InputHTMLAttributes<HTMLInputElement>
 
 export default function FormInput({
-  wasSubmitted,
+  wasSubmitted = false,
   getFieldError,
   type,
   name,
