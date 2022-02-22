@@ -8,9 +8,16 @@ import AnimatedLink from '~/components/AnimatedLink';
 import GradientBorderCard from '~/components/Card/GradientBorderCard';
 import RemixLink from '~/components/RemixLink';
 import LargeGradientButton from '~/components/LargeGradientButton';
+import { LoaderFunction } from 'remix';
 
 export const NON_ESCALATOR_FORM_ID = 'non-escalator-relationship';
 export const NON_ESCALATOR_FORM_NAME = 'Non-Escalator Relationship Form';
+
+
+export const loader: LoaderFunction = async () => {
+  console.log('LOADER IN INDEX ROUTE');
+  return {}
+}
 
 export default function NonEscalatorRelationshipIndexRoute() {
   return (
@@ -35,7 +42,7 @@ export default function NonEscalatorRelationshipIndexRoute() {
                 </p>
                 <div className="flex items-center self-center">
                   <RemixLink
-                    to="non-escalator-relationship/commitment"
+                    to="/non-escalator-relationship/1"
                     className="rounded-md"
                   >
                     <LargeGradientButton>
@@ -167,7 +174,7 @@ export default function NonEscalatorRelationshipIndexRoute() {
                 </p>
                 <div className="flex items-center self-center">
                   <RemixLink
-                    to="non-escalator-relationship/commitment"
+                    to="/non-escalator-relationship/1"
                     className="rounded-md"
                   >
                     <LargeGradientButton>
