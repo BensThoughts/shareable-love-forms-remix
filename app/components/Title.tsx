@@ -1,15 +1,12 @@
 import React from 'react';
 
 export default function Title({
+  className = '',
   children,
-  className,
-}: React.HTMLAttributes<HTMLHtmlElement>) {
+}: React.HTMLAttributes<HTMLHeadingElement>): JSX.Element {
   return (
-    // <div className="flex justify-center items-center w-full text-center">
-    <h1 className={`text-4xl font-bold ${className ? className : ''}`}>
+    <h1 className={`text-4xl font-bold ${className}`}>
       {children}
     </h1>
-    // </div>
-
   );
 }

@@ -7,9 +7,9 @@ export const links: LinksFunction = () => {
     {
       rel: 'stylesheet',
       href: animatedLinkIconCss,
-    }
-  ]
-}
+    },
+  ];
+};
 
 export default function AnimatedLinkIcon({
   children,

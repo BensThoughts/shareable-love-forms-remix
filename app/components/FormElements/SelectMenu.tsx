@@ -1,6 +1,6 @@
-import {useState, Fragment, useRef, useEffect} from 'react';
-import {Listbox, Transition} from '@headlessui/react';
-import {CheckIcon, SelectorIcon} from '@heroicons/react/solid';
+import { useState, Fragment } from 'react';
+import { Listbox, Transition } from '@headlessui/react';
+import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 
 export default function SelectMenu({
   name,
@@ -50,12 +50,12 @@ export default function SelectMenu({
               {options.map((option, optionIdx) => (
                 <Listbox.Option
                   key={optionIdx}
-                  className={({active}) => `${active ? 'text-neutral-lightest bg-secondary' : 'text-neutral-lighter'}
+                  className={({ active }) => `${active ? 'text-neutral-lightest bg-secondary' : 'text-neutral-lighter'}
                       cursor-default select-none relative py-2 pl-10 pr-4
                   `}
                   value={option}
                 >
-                  {({selected, active}) => (
+                  {({ selected, active }) => (
                     <>
                       <span
                         className={`${

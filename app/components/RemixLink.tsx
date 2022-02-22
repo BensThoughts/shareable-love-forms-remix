@@ -7,7 +7,7 @@ type RemixLinkProps = {
 
 export default function RemixLink({
   to,
-  className,
+  className = '',
   children,
   ...rest
 }: RemixLinkProps) {
@@ -19,11 +19,11 @@ export default function RemixLink({
       focus-visible:ring-offset-1 focus-visible:ring-offset-primary/[.15]
       hover:border-opacity-80 hover:ring-2 hover:ring-primary hover:ring-opacity-80
       hover:ring-offset-1 hover:ring-offset-primary/[.15]
-      ${className ? className : ''}`}
+      ${className}`}
       {...rest}
     >
       {children}
     </Link>
-  )
+  );
 }
 

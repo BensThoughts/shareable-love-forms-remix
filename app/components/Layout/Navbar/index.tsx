@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
 // import ThemeToggle from '@app/components/ThemeToggle';
 import MenuDrawer from '../MenuDrawer';
@@ -6,7 +6,7 @@ import IconButton from '../../IconButton';
 // import MenuItem from './MenuItem';
 import NavHider from './NavHider';
 
-import {menuItems} from './menuItems';
+import { menuItems } from './menuItems';
 
 import {
   MenuIcon,
@@ -22,15 +22,15 @@ export const links: LinksFunction = () => {
     {
       rel: 'stylesheet',
       href: navbarCss,
-    }
+    },
   ];
-}
+};
 
 type NavBarProps = {
   className?: string;
 }
 
-export default function Navbar({className, ...rest}: NavBarProps) {
+export default function Navbar({ className, ...rest }: NavBarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

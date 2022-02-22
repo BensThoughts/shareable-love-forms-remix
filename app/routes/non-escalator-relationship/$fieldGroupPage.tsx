@@ -1,4 +1,4 @@
-import { LoaderFunction, ActionFunction, MetaFunction, Form, json } from 'remix';
+import { LoaderFunction, ActionFunction, MetaFunction, Form } from 'remix';
 import {
   useLoaderData,
   useCatch,
@@ -59,36 +59,40 @@ export const loader: LoaderFunction = async ({
   // TODO: extract? convert fieldGroupPage to a number
   const { fieldGroupPage } = params;
   const fieldGroupPageNum = Number(fieldGroupPage);
-  if (isNaN(fieldGroupPageNum)) throw new Response('Not a valid page number', {
-    status: 404,
-  });
+  if (isNaN(fieldGroupPageNum)) {
+    throw new Response('Not a valid page number', {
+      status: 404,
+    });
+  }
 
   const formState = await db.formState.findUnique({
-    where: { 
-      name: 'Non Escalator Form'
-     },
-     include: {
-       fieldGroups: {
-         include: {
-           fields: {
-             include: {
-               fieldValuesForUsers: {
-                 where: {
-                   userId
-                 },
-                 select: {
-                   value: true
-                 }
-               }
-             }
-           },
-         }
-       }
-     }
+    where: {
+      name: 'Non Escalator Form',
+    },
+    include: {
+      fieldGroups: {
+        include: {
+          fields: {
+            include: {
+              fieldValuesForUsers: {
+                where: {
+                  userId,
+                },
+                select: {
+                  value: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   });
-  if (!formState) throw new Response('Not a valid form', {
-    status: 404,
-  });
+  if (!formState) {
+    throw new Response('Not a valid form', {
+      status: 404,
+    });
+  }
 
   const fieldGroupLength = formState.fieldGroups.length;
 
@@ -96,9 +100,11 @@ export const loader: LoaderFunction = async ({
     fieldGroupPageNum > fieldGroupLength ||
     fieldGroupPageNum < 1 ||
     fieldGroupPageNum > fieldGroupLength
-  ) throw new Response('Not a valid form page', {
-    status: 404,
-  });
+  ) {
+    throw new Response('Not a valid form page', {
+      status: 404,
+    });
+  }
 
   const nextFieldGroupPage = fieldGroupPageNum === fieldGroupLength ? undefined : fieldGroupPageNum + 1;
   const prevFieldGroupPage = fieldGroupPageNum === 1 ? undefined : fieldGroupPageNum - 1;
@@ -124,7 +130,7 @@ export const loader: LoaderFunction = async ({
       tooltipText: tooltipText ? tooltipText : undefined,
       defaultValue: defaultValue ? defaultValue : undefined,
       value: fieldValuesForUsers[0] ? fieldValuesForUsers[0].value : undefined,
-    }
+    };
   });
 
 
@@ -132,29 +138,29 @@ export const loader: LoaderFunction = async ({
     fieldGroup: {
       label: fieldGroup.label,
       formName: fieldGroup.formName,
-      fields
+      fields,
     },
     fieldGroupIndex,
     nextFieldGroupPage,
-    prevFieldGroupPage
+    prevFieldGroupPage,
     // fieldGroup: formState.fieldGroups[currentIdx]
   };
   return data;
 };
 
-type ActionData = {
-  formError?: string;
-  fieldErrors?: {
-    name: string | undefined,
-    content: string | undefined,
-  };
-  fields?: {
-    name: string;
-    content: string;
-  };
-};
+// type ActionData = {
+//   formError?: string;
+//   fieldErrors?: {
+//     name: string | undefined,
+//     content: string | undefined,
+//   };
+//   fields?: {
+//     name: string;
+//     content: string;
+//   };
+// };
 
-const badRequest = (data: ActionData) => json(data, { status: 400 });
+// const badRequest = (data: ActionData) => json(data, { status: 400 });
 
 
 export const action: ActionFunction = async ({
@@ -169,27 +175,27 @@ export const action: ActionFunction = async ({
   const redirectTo = `/non-escalator-relationship/${redirectToPage.toString()}`;
 
 
-  let batchTransactions: Prisma.Prisma__FieldValuesForUsersClient<FieldValuesForUsers>[] = [];
-  for (let pair of form.entries()) {
+  const batchTransactions: Prisma.Prisma__FieldValuesForUsersClient<FieldValuesForUsers>[] = [];
+  for (const pair of form.entries()) {
     const fieldId = pair[0];
     const value = pair[1].toString();
     const data = {
       userId,
       fieldId,
       value,
-    }
+    };
     batchTransactions.push(
-      db.fieldValuesForUsers.upsert({
-        where: {
-          fieldId_userId: {
-            fieldId,
-            userId,
-          }
-        },
-        update: data,
-        create: data,
-      })
-    )
+        db.fieldValuesForUsers.upsert({
+          where: {
+            fieldId_userId: {
+              fieldId,
+              userId,
+            },
+          },
+          update: data,
+          create: data,
+        }),
+    );
   }
 
   try {
@@ -197,17 +203,17 @@ export const action: ActionFunction = async ({
   } catch (e) {
     throw new Response('Error updating database', {
       status: 500,
-    })
+    });
   }
 
   return redirect(`${redirectTo}`);
-}
+};
 
 export default function FieldGroupRoute() {
   const {
     fieldGroup,
     nextFieldGroupPage,
-    prevFieldGroupPage
+    prevFieldGroupPage,
   } = useLoaderData<LoaderData>();
   return (
     <GridWrapper>
@@ -222,18 +228,18 @@ export default function FieldGroupRoute() {
           <div className="flex flex-col gap-y-12 justify-center items-center">
             <FieldGroupLayout fieldGroup={fieldGroup} />
             <div className="flex gap-6 justify-between w-full">
-            {prevFieldGroupPage && (
-              <div className="mr-auto">
-                <RoundedButton
-                  type="submit"
-                  name="redirectToPage"
-                  value={prevFieldGroupPage}
-                >
+              {prevFieldGroupPage && (
+                <div className="mr-auto">
+                  <RoundedButton
+                    type="submit"
+                    name="redirectToPage"
+                    value={prevFieldGroupPage}
+                  >
                   Previous
-                </RoundedButton>
-              </div>
-            )}
-            {nextFieldGroupPage ? (
+                  </RoundedButton>
+                </div>
+              )}
+              {nextFieldGroupPage ? (
               <div className="ml-auto">
                 <RoundedButton
                   type="submit"
@@ -254,10 +260,10 @@ export default function FieldGroupRoute() {
                 </RoundedButton>
               </div>
             )}
-          </div>
+            </div>
           </div>
           <div>
-      
+
           </div>
 
         </div>
@@ -319,23 +325,23 @@ export function ErrorBoundary() {
 //   );
 // })}
 
-  // const values = Array.from(form.entries());
-  // const batchTransactions = values.map((field) => {
-  //     const fieldId = field[0];
-  //     const value = field[1].toString();
-  //     const data = {
-  //       userId,
-  //       fieldId,
-  //       value,
-  //     }
-  //     return db.fieldValuesForUsers.upsert({
-  //       where: {
-  //         fieldId_userId: {
-  //           fieldId,
-  //           userId,
-  //         }
-  //       },
-  //       update: data,
-  //       create: data,
-  //     });
-  //   })
+// const values = Array.from(form.entries());
+// const batchTransactions = values.map((field) => {
+//     const fieldId = field[0];
+//     const value = field[1].toString();
+//     const data = {
+//       userId,
+//       fieldId,
+//       value,
+//     }
+//     return db.fieldValuesForUsers.upsert({
+//       where: {
+//         fieldId_userId: {
+//           fieldId,
+//           userId,
+//         }
+//       },
+//       update: data,
+//       create: data,
+//     });
+//   })

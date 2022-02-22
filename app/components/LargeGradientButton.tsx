@@ -10,7 +10,7 @@ export default function LargeGradientButton({
       className={`p-[3px] bg-gradient-to-tr from-primary to-secondary rounded-md shadow-md ${className ? className : ''}`}
       {...rest}
     >
-      <div className="gap-2 flex-col flex justify-between p-4 h-full rounded-md bg-neutral-dark">
+      <div className="flex flex-col gap-2 justify-between p-4 h-full rounded-md bg-neutral-dark">
         <span className="text-neutral-lightest">
           {children}
         </span>

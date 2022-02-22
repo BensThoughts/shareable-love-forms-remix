@@ -29,7 +29,7 @@ export default function Index() {
           below, fill it out, and then share the results. Form results can be downloaded as a PDF file,
           or shared as a link.
           </div>
-  
+
         </Card>
       </FlexSection>
       <FlexSection>

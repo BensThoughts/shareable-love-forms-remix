@@ -1,4 +1,4 @@
-import {forwardRef, MouseEventHandler} from 'react';
+import { forwardRef, MouseEventHandler } from 'react';
 
 type AProps = {
   children: React.ReactNode;
@@ -18,11 +18,10 @@ const AnimatedLink = forwardRef<HTMLAnchorElement, AProps>(({
       href={href}
       onClick={onClick}
       ref={ref}
-      className={`animated-underline rounded-sm outline-none focus-visible:border-opacity-80 focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-opacity-80 focus-visible:ring-offset-4 focus-visible:ring-offset-app-bg ${className}`}
-
+      className={`rounded-sm outline-none animated-underline focus-visible:border-opacity-80 focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-opacity-80 focus-visible:ring-offset-4 focus-visible:ring-offset-app-bg ${className}`}
       {...rest}
     >
-        {children}
+      {children}
     </a>
   );
 });

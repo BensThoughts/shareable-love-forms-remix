@@ -1,10 +1,19 @@
 import {
-  // LoaderFunction,
   Outlet,
-  // useLoaderData
 } from 'remix';
-import GridWrapper from '~/components/GridWrapper';
-import Title from '~/components/Title';
+
+export default function NonEscalatorRelationshipRoute() {
+  // const { fieldGroups } = useLoaderData<LoaderData>();
+  return (
+    <div className="my-16">
+      <Outlet />
+    </div>
+    // <FieldGroupsProvider initialFieldGroups={fieldGroups}>
+    // </FieldGroupsProvider>
+  );
+}
+
+
 // import invariant from 'tiny-invariant';
 // import FieldGroupsProvider from '~/utils/context/FieldGroupCacheContext';
 // import { db } from '~/utils/db/db.server';
@@ -93,14 +102,3 @@ import Title from '~/components/Title';
 //     fieldGroups,
 //   }
 // }
-
-export default function NonEscalatorRelationshipRoute() {
-  // const { fieldGroups } = useLoaderData<LoaderData>();
-  return (
-    <div className="my-16">
-      <Outlet />
-    </div>
-    // <FieldGroupsProvider initialFieldGroups={fieldGroups}>
-    // </FieldGroupsProvider>
-  )
-}

@@ -31,13 +31,13 @@ import AnimatedLinkIcon, {
 
 export const links: LinksFunction = () => {
   return [...animatedLinkIconLinks()];
-}
+};
 
 type FooterProps = {
   className?: string;
 }
 
-export default function Footer({className}: FooterProps) {
+export default function Footer({ className }: FooterProps) {
   return (
     <div className={`bg-app-bg w-full flex flex-row justify-center items-center ${className ? className : ''}`}>
       {/* <div className="mx-3">

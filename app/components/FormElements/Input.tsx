@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
 type FormInputProps = {
   wasSubmitted?: boolean;
@@ -33,7 +33,7 @@ export default function FormInput({
 
   return (
     <div
-      className={`w-full relative my-4 border-b-2 focus-within:${borderColor}`}
+      className={`relative my-4 w-full border-b-2 focus-within:${borderColor}`}
     >
       <input
         type={type}
@@ -47,11 +47,11 @@ export default function FormInput({
         aria-describedby={displayError ? `${name}-error` : undefined}
         onBlur={() => setTouched(true)}
         // displayError={displayError as boolean}
-        className={`block w-full appearance-none focus:outline-none bg-transparent`}
+        className={`block w-full bg-transparent appearance-none focus:outline-none`}
       />
       <label
         htmlFor={name}
-        className={`absolute top-0 -z-1 duration-300 origin-0 ${textColor}`}
+        className={`absolute top-0 duration-300 -z-1 origin-0 ${textColor}`}
       >
         {name}{displayError ? ` (${errorMessage})` : ''}
       </label>
