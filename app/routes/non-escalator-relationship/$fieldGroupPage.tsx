@@ -21,6 +21,8 @@ import invariant from 'tiny-invariant';
 import GridWrapper from '~/components/GridWrapper';
 import { FieldValuesForUsers, Prisma } from '@prisma/client';
 import Title from '~/components/Title';
+import useSlideAnimation from '~/utils/hooks/useSlideAnimation';
+import PageTransition from '~/components/Layout/PageTransition';
 
 type LoaderData = {
   fieldGroup: FieldGroup;
@@ -54,7 +56,7 @@ export const loader: LoaderFunction = async ({
   params,
 }) => {
   console.log('LOADER IN PARAM ROUTE');
-  const userId = await requireUserId(request, '/login');
+  const userId = await requireUserId(request);
 
   // TODO: extract? convert fieldGroupPage to a number
   const { fieldGroupPage } = params;
@@ -167,7 +169,7 @@ export const action: ActionFunction = async ({
   request,
 }) => {
   const form = await request.formData();
-  const userId = await requireUserId(request, '/login');
+  const userId = await requireUserId(request);
 
   const redirectToPage = form.get('redirectToPage');
   invariant(redirectToPage, 'No page to redirect to');
@@ -215,36 +217,40 @@ export default function FieldGroupRoute() {
     nextFieldGroupPage,
     prevFieldGroupPage,
   } = useLoaderData<LoaderData>();
+  const [slideAnimationDirection, setSlideAnimationDirection] = useSlideAnimation();
   return (
-    <GridWrapper>
-      <div className="flex flex-col gap-2 justify-center items-center w-full">
-        <Title>Non Escalator Form</Title>
-        <h2 className="text-2xl text-center text-neutral-lighter">
-          {fieldGroup.label}
-        </h2>
-      </div>
-      <Form method="post">
-        <div className="flex flex-col gap-20 items-center">
-          <div className="flex flex-col gap-y-12 justify-center items-center">
-            <FieldGroupLayout fieldGroup={fieldGroup} />
-            <div className="flex gap-6 justify-between w-full">
-              {prevFieldGroupPage && (
-                <div className="mr-auto">
-                  <RoundedButton
-                    type="submit"
-                    name="redirectToPage"
-                    value={prevFieldGroupPage}
-                  >
+    <PageTransition slideDirection={slideAnimationDirection}>
+      <GridWrapper>
+        <div className="flex flex-col gap-2 justify-center items-center w-full">
+          <Title>Non Escalator Form</Title>
+          <h2 className="text-2xl text-center text-neutral-lighter">
+            {fieldGroup.label}
+          </h2>
+        </div>
+        <Form method="post">
+          <div className="flex flex-col gap-20 items-center">
+            <div className="flex flex-col gap-y-12 justify-center items-center">
+              <FieldGroupLayout fieldGroup={fieldGroup} />
+              <div className="flex gap-6 justify-between w-full">
+                {prevFieldGroupPage && (
+                  <div className="mr-auto">
+                    <RoundedButton
+                      type="submit"
+                      name="redirectToPage"
+                      value={prevFieldGroupPage}
+                      onClick={() => setSlideAnimationDirection('right')}
+                    >
                   Previous
-                  </RoundedButton>
-                </div>
-              )}
-              {nextFieldGroupPage ? (
+                    </RoundedButton>
+                  </div>
+                )}
+                {nextFieldGroupPage ? (
               <div className="ml-auto">
                 <RoundedButton
                   type="submit"
                   name="redirectToPage"
                   value={nextFieldGroupPage}
+                  onClick={() => setSlideAnimationDirection('left')}
                 >
                   Next
                 </RoundedButton>
@@ -260,15 +266,16 @@ export default function FieldGroupRoute() {
                 </RoundedButton>
               </div>
             )}
+              </div>
             </div>
-          </div>
-          <div>
+            <div>
+
+            </div>
 
           </div>
-
-        </div>
-      </Form>
-    </GridWrapper>
+        </Form>
+      </GridWrapper>
+    </PageTransition>
   );
 }
 
