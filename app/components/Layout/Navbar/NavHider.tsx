@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { Transition } from '@headlessui/react';
 
-import useScrollDirection from '../../../utils/hooks/useScrollDirection';
+import useScrollDirection from '~/utils/hooks/useScrollDirection';
 
 type NavHiderProps = {
   className?: string;
