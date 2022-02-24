@@ -32,6 +32,7 @@ model FormField {
 }
 
 model FormFieldGroup {
+  id        String      @id @default(uuid())
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   label     String
@@ -39,10 +40,12 @@ model FormFieldGroup {
   formName  String
   fields    FormField[]
 
-  @@id([label, formName])
+  // @@id([label, formName])
+  @@unique([label, formName])
 }
 
 model FormState {
+  id          String           @default(uuid())
   name        String           @id @unique
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
@@ -52,34 +55,37 @@ model FormState {
 }
 
 model FieldValuesForUsers {
-  id          String     @default(uuid())
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   value       String
   fieldId     String
-  field       FormField  @relation(fields: [fieldId], references: [id], onDelete: Cascade)
-  userId      String
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  clerkUserId String?
-  clerkUser   ClerkUser? @relation(fields: [clerkUserId], references: [id], onDelete: Cascade)
+  field       FormField @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  // userId      String
+  // user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clerkUserId String
+  // clerkUser   ClerkUser @relation(fields: [clerkUserId], references: [id], onDelete: Cascade)
 
-  @@id([fieldId, userId])
+
+  // @@id([fieldId, userId])
+  // @@id([fieldId, clerkUserId])
+  @@unique([fieldId, clerkUserId])
 }
 
-model ClerkUser {
-  id          String                @id @unique
-  createdAt   DateTime              @default(now())
-  updatedAt   DateTime              @updatedAt
-  // username     String                @unique
-  // passwordHash String?
-  fieldValues FieldValuesForUsers[]
-}
+// model ClerkUser {
+//   id          String                @id @unique
+//   createdAt   DateTime              @default(now())
+//   updatedAt   DateTime              @updatedAt
+//   // username     String                @unique
+//   // passwordHash String?
+//   fieldValues FieldValuesForUsers[]
+// }
 
-model User {
-  id           String                @id @default(uuid())
-  createdAt    DateTime              @default(now())
-  updatedAt    DateTime              @updatedAt
-  username     String                @unique
-  passwordHash String
-  fieldValues  FieldValuesForUsers[]
-}
+// model User {
+//   id           String                @id @default(uuid())
+//   createdAt    DateTime              @default(now())
+//   updatedAt    DateTime              @updatedAt
+//   username     String                @unique
+//   passwordHash String
+//   fieldValues  FieldValuesForUsers[]
+// }
