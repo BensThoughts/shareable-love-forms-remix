@@ -6,20 +6,19 @@ import {
   Scripts,
   useLocation,
   ScrollRestoration,
-  LoaderFunction,
-  useLoaderData,
-  Link,
+  // LoaderFunction,
+  // useLoaderData,
 } from 'remix';
 import type { MetaFunction, LinksFunction } from 'remix';
 
 import tailwindcssUrl from '~/styles/tailwind.css';
 import Footer, { links as footerLinks } from './components/Layout/Footer';
 import Navbar from './components/Layout/Navbar';
-import { AnimatePresence } from 'framer-motion';
-import SlideAnimationProvider from './utils/context/SlideAnimationContext';
+// import { AnimatePresence } from 'framer-motion';
+// import SlideAnimationProvider from './utils/context/SlideAnimationContext';
 
-import { ClerkProvider, SignedOut, UserButton } from '@clerk/remix';
-import { rootAuthLoader, WithClerkState } from '@clerk/remix/ssr.server';
+// import { ClerkProvider } from '@clerk/remix';
+// import { rootAuthLoader, WithClerkState } from '@clerk/remix/ssr.server';
 // import globalCssUrl from '~/styles/global.css';
 
 export const meta: MetaFunction = () => {
@@ -40,22 +39,22 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const loader: LoaderFunction = (args) =>
-  rootAuthLoader(
-      args,
-      () => {
-        // const { userId, sessionId, getToken } = auth;
-        // console.log({
-        //   userId,
-        //   sessionId,
-        //   getToken,
-        // });
-        return `Hello from the root loader :)`;
-      },
-      // {
-      //   loadUser: true,
-      // },
-  );
+// export const loader: LoaderFunction = (args) =>
+//   rootAuthLoader(
+//       args,
+//       ({ auth }) => {
+//         // const { userId, sessionId, getToken } = auth;
+//         // console.log({
+//         //   userId,
+//         //   sessionId,
+//         //   getToken,
+//         // });
+//         return `Hello from the root loader :)`;
+//       },
+//       // {
+//       //   loadUser: true,
+//       // },
+//   );
 
 function Document({
   children,
@@ -98,15 +97,17 @@ export default function App() {
         <div className="content-wrap">
 
           <main className="overflow-hidden z-0 mt-20 mb-16 max-h-full">
-            <SlideAnimationProvider>
-              <AnimatePresence
+            {/* <SlideAnimationProvider> */}
+            {/* <AnimatePresence
                 exitBeforeEnter={true}
                 initial={false}
                 // onExitComplete={() => window.scrollTo(0, 0)}
-              >
-                <Outlet key={location.pathname} />
-              </AnimatePresence>
-            </SlideAnimationProvider>
+              > */}
+            <div className="my-16">
+              <Outlet key={location.pathname} />
+            </div>
+            {/* </AnimatePresence> */}
+            {/* </SlideAnimationProvider> */}
           </main>
 
         </div>

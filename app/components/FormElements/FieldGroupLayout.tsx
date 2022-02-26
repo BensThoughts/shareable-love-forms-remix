@@ -1,67 +1,100 @@
-import React from 'react';
-import SelectMenu from './SelectMenu';
-import FormInput from './Input';
-import Label from './Label';
 
-import type { FieldGroup, Field } from '~/utils/types';
-
-export type FieldGroupLayoutProps = {
-  fieldGroup: FieldGroup;
-}
-
-export default function FieldGroupLayout({
-  fieldGroup,
-}: FieldGroupLayoutProps) {
-  const { fields } = fieldGroup;
-
-  function getField({
-    id,
-    label,
-    type,
-    defaultValue,
-    valueOptions,
-    value,
-    tooltipText,
-  }: Field): React.ReactNode {
-    switch (type) {
-      case 'selectField': {
-        // TODO: Should not or to N/A
-        defaultValue = defaultValue ? defaultValue : 'N/A';
-        const initialValue = value ? value : defaultValue;
-        return (
-          <div className="flex flex-col gap-3">
-            <Label label={label} tooltipText={tooltipText ? tooltipText : undefined} />
-            <SelectMenu
-              name={id}
-              // TODO: valueOptions is never null/undefined
-              options={valueOptions}
-              // TODO: initialValue needs to be checked to line up with valueOptions
-              initialValue={initialValue}
-            />
-          </div>
-        );
-      }
-      case 'inputField': {
-        return (
-          <FormInput
-            wasSubmitted={false}
-            getFieldError={() => null}
-            type={'text'}
-            name={id}
-            placeholder={label}
-          />
-        );
-      }
-    }
-  }
-
+export default function Blank() {
   return (
-    <>
-      {fields && fields.map((field) => (
-        <div key={field.id}>
-          {getField(field)}
-        </div>
-      ))}
-    </>
+    <div>
+    </div>
   );
 }
+// import type { FormProps } from 'remix'
+// import { FieldGroupLoaderData } from '~/routes/non-escalator-relationship/$fieldGroupIdx'
+// import { FieldGroup } from '~/utils/types'
+// import GridWrapper from '../GridWrapper'
+// import RoundedButton from '../RoundedButton'
+// import Title from '../Title'
+// import FieldsLayout from './FieldsLayout';
+
+// type FieldGroupLayoutProps = {
+//   Form: React.ForwardRefExoticComponent<FormProps & React.RefAttributes<HTMLFormElement>>;
+//   data: FieldGroupLoaderData;
+//   state: 'submitting' | 'loading' | 'idle';
+//   type: 'loaderSubmission' | 'actionReload' | 'normalLoad' | 'done';
+//   fieldGroup?: FieldGroup;
+//   onClickButton()
+// }
+
+// export default function FieldGroupLayout({
+//   Form,
+//   data,
+//   state,
+//   type,
+// }: FieldGroupLayoutProps) {
+
+//   function onClickButton(direction: 'prev' | 'next') {
+//     if (direction === 'next') {
+
+//     }
+
+//   }
+// return (
+//   <GridWrapper>
+//   <div className="flex flex-col gap-2 justify-center items-center w-full">
+//     <Title>Non Escalator Form</Title>
+//     <h2 className="text-2xl text-center text-neutral-lighter">
+//       {data.fieldGroup.label}
+//     </h2>
+//   </div>
+//   <Form
+//     // ref={ref}
+//     method="post"
+//     action='/non-escalator-relationship/update-data'
+//     onSubmit={(event) => event.preventDefault()}
+//   >
+//     <div className="flex flex-col gap-20 items-center">
+//       <div className="flex flex-col gap-y-12 justify-center items-center">
+//         <FieldsLayout fieldGroup={data.fieldGroup} />
+//         <div className="flex gap-6 justify-between w-full">
+//           {data.hasPrevFieldGroup && (
+//             <div className="mr-auto">
+//               <RoundedButton
+//                 type="submit"
+//                 // name="redirectToPage"
+//                 // value={fetcher.data.prevFieldGroupPage}
+//                 onClick={() => onClickButton('prev')}
+//               >
+//                 Previous
+//               </RoundedButton>
+//             </div>
+//           )}
+//           {fetcher.data.nextFieldGroupPage ? (
+//       <div className="ml-auto">
+//         <RoundedButton
+//           type="submit"
+//           // name="redirectToPage"
+//           // value={fetcher.data.nextFieldGroupPage}
+//           onClick={() => onClickButton('next')}
+//         >
+//             Next
+//         </RoundedButton>
+//       </div>
+//     ) : (
+//       <div className="ml-auto">
+//         <RoundedButton
+//           type="submit"
+//           name="redirectToPage"
+//           value={'finished-form'}
+//         >
+//           Submit
+//         </RoundedButton>
+//       </div>
+//     )}
+//         </div>
+//       </div>
+//       <div>
+
+//       </div>
+
+//     </div>
+//   </Form>
+// </GridWrappe>
+// )
+// }

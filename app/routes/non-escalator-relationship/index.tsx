@@ -40,7 +40,7 @@ export default function NonEscalatorRelationshipIndexRoute() {
               </p>
               <div className="flex items-center self-center">
                 <RemixLink
-                  to="/non-escalator-relationship/1"
+                  to="/non-escalator-relationship/0"
                   className="rounded-md"
                 >
                   <LargeGradientButton>
@@ -172,7 +172,7 @@ export default function NonEscalatorRelationshipIndexRoute() {
               </p>
               <div className="flex items-center self-center">
                 <RemixLink
-                  to="/non-escalator-relationship/1"
+                  to="/non-escalator-relationship/0"
                   className="rounded-md"
                 >
                   <LargeGradientButton>

@@ -55,21 +55,21 @@ model FormState {
 }
 
 model FieldValuesForUsers {
-  id          String    @id @default(uuid())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  value       String
-  fieldId     String
-  field       FormField @relation(fields: [fieldId], references: [id], onDelete: Cascade)
-  // userId      String
-  // user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  clerkUserId String
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  value     String
+  fieldId   String
+  field     FormField @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // clerkUserId String
   // clerkUser   ClerkUser @relation(fields: [clerkUserId], references: [id], onDelete: Cascade)
 
 
   // @@id([fieldId, userId])
-  // @@id([fieldId, clerkUserId])
-  @@unique([fieldId, clerkUserId])
+  // @@unique([fieldId, clerkUserId])
+  @@unique([fieldId, userId])
 }
 
 // model ClerkUser {
@@ -81,11 +81,11 @@ model FieldValuesForUsers {
 //   fieldValues FieldValuesForUsers[]
 // }
 
-// model User {
-//   id           String                @id @default(uuid())
-//   createdAt    DateTime              @default(now())
-//   updatedAt    DateTime              @updatedAt
-//   username     String                @unique
-//   passwordHash String
-//   fieldValues  FieldValuesForUsers[]
-// }
+model User {
+  id           String                @id @default(uuid())
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+  username     String                @unique
+  passwordHash String
+  fieldValues  FieldValuesForUsers[]
+}

@@ -9,12 +9,12 @@ async function seed() {
   await db.$connect();
   console.log('connected');
 
-  // await Promise.all(
-  //     getUsers().map(({ data }) => {
-  //       return db.user.create({ data });
-  //     }),
-  // );
-  // console.log('users created');
+  await Promise.all(
+      getUsers().map(({ data }) => {
+        return db.user.create({ data });
+      }),
+  );
+  console.log('users created');
 
   // await Promise.all(
   //     getClerkUsers().map((clerkUser) => {
@@ -53,12 +53,12 @@ seed()
 const DEFAULT_RESPONSE_OPTIONS = ['N/A', 'Must Have', 'Like To Have', 'Maybe', 'Off Limits'];
 const DEFAULT_RESPONSE = 'N/A';
 
-// const kody: Prisma.UserCreateArgs = {
-//   data: {
-//     username: 'kody',
-//     passwordHash: '$2b$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lSsvqNu/1u',
-//   },
-// };
+const kody: Prisma.UserCreateArgs = {
+  data: {
+    username: 'kody',
+    passwordHash: '$2b$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lSsvqNu/1u',
+  },
+};
 
 // const bensthoughts: Prisma.ClerkUserCreateArgs = {
 //   data: {
@@ -66,11 +66,11 @@ const DEFAULT_RESPONSE = 'N/A';
 //   },
 // };
 
-// const getUsers = () => {
-//   return [
-//     kody,
-//   ];
-// };
+const getUsers = () => {
+  return [
+    kody,
+  ];
+};
 
 // const getClerkUsers = () => {
 //   return [

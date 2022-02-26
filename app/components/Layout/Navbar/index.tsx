@@ -36,12 +36,11 @@ export default function Navbar({ className, ...rest }: NavBarProps) {
   // const { isSignedIn, isLoaded } = useUser();
 
   function getUserButton() {
-    return <RemixAnimatedLink to="/sign-in">Sign In</RemixAnimatedLink>;
+    return <RemixAnimatedLink to="/login">Sign In</RemixAnimatedLink>;
 
     // if (isLoaded) {
     //   if (isSignedIn) {
-    //     return null;
-    //     // return <UserButton afterSignOutAllUrl='/' />;
+    //     return <UserButton afterSignOutAllUrl='/' />;
     //   }
     //   return <RemixAnimatedLink to="/sign-in">Sign In</RemixAnimatedLink>;
     // }
